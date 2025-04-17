@@ -12,6 +12,9 @@ export default function TodoList() {
   } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchTodos,
+    meta: {
+      name: "todos 홈",
+    },
   });
 
   const queryClient = useQueryClient();

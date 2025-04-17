@@ -13,6 +13,9 @@ export default function CompletedPage() {
     queryKey: ["todos"],
     queryFn: fetchTodos,
     select: (todos) => todos.filter((todo) => todo.completed),
+    meta: {
+      name: "todos 완료목록",
+    },
   });
 
   if (isPending)
