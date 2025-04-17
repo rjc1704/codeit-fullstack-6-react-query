@@ -36,7 +36,7 @@ export default function Header() {
                 더보기
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href="/infinite-scroll"
                 className={`px-3 py-2 rounded hover:bg-blue-600 ${isActive(
@@ -45,7 +45,7 @@ export default function Header() {
               >
                 무한스크롤
               </Link>
-            </li>
+            </li> */}
             {/* <li>
               <Link
                 href="/completed"
