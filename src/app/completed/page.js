@@ -26,7 +26,7 @@ export default function CompletedPage() {
   if (error)
     return (
       <div className="container mx-auto px-4 py-8 text-center text-red-500">
-        {error}
+        {error.message || "알 수 없는 오류가 발생했습니다"}
       </div>
     );
 
