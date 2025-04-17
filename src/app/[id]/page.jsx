@@ -48,7 +48,7 @@ export default function TodoDetailPage() {
       <div className="max-w-md mx-auto mt-8">
         <button
           onClick={() => router.push("/")}
-          className="mb-4 px-4 py-2 bg-gray-200 rounded"
+          className="mb-4 px-4 py-2 bg-gray-200 rounded cursor-pointer"
         >
           ← 목록으로 돌아가기
         </button>
