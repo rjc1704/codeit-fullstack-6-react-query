@@ -10,12 +10,12 @@ export default function TodoList() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const {
-    data: todosData,
+    data: todos,
     isPending,
     error,
   } = useQuery({
-    queryKey: ["todos", currentPage],
-    queryFn: () => fetchTodos({ page: currentPage }),
+    queryKey: ["todos"],
+    queryFn: () => fetchTodos(),
     meta: {
       name: "todos 홈",
     },
@@ -82,7 +82,7 @@ export default function TodoList() {
       </div>
     );
 
-  const { todos, totalPages } = todosData;
+  // const { todos, totalPages } = todosData;
 
   return (
     <div>
@@ -102,11 +102,11 @@ export default function TodoList() {
       </div>
 
       {/* 페이지네이션 UI */}
-      <Pagination
+      {/* <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
-      />
+      /> */}
     </div>
   );
 }
