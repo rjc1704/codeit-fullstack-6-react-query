@@ -9,7 +9,7 @@
     {
       "title": "json-server 데이터2",
       "completed": false,
-      "liked": true,
+      "liked": false,
       "id": 2
     },
     {
