@@ -1,35 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetchTodo, fetchTodos } from "@/api/todos";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTodo } from "@/api/todos";
 import { useParams, useRouter } from "next/navigation";
 
 export default function TodoDetailPage() {
   const { id } = useParams();
   const router = useRouter();
 
-  const [todo, setTodo] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    data: todo,
+    isPending,
+    error,
+  } = useQuery({
+    queryKey: ["todos", id],
+    queryFn: () => fetchTodo(id),
+  });
 
-  useEffect(() => {
-    const fetchTodoDetail = async () => {
-      try {
-        setIsLoading(true);
-        const data = await fetchTodo(id);
-        setTodo(data);
-      } catch (err) {
-        console.error("할 일 상세 정보를 가져오는 중 오류 발생:", err);
-        setError("할 일 상세 정보를 가져오는데 실패했습니다.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTodoDetail();
-  }, [id]);
-
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">로딩 중...</div>
     );
@@ -48,7 +36,7 @@ export default function TodoDetailPage() {
       <div className="max-w-md mx-auto mt-8">
         <button
           onClick={() => router.push("/")}
-          className="mb-4 px-4 py-2 bg-gray-200 rounded"
+          className="mb-4 px-4 py-2 bg-gray-200 rounded cursor-pointer"
         >
           ← 목록으로 돌아가기
         </button>
