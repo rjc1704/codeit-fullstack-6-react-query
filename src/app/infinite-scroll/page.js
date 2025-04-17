@@ -4,11 +4,13 @@ import { fetchInfiniteTodos } from "@/api/todos";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import TodoItem from "@/app/_components/TodoItem";
 import TodoForm from "@/app/_components/TodoForm";
-import { useEffect, useRef } from "react";
+import { useInView } from "react-intersection-observer";
+import { useEffect } from "react";
 
 export default function InfiniteScrollPage() {
-  const observerRef = useRef(null);
-  const loadMoreRef = useRef(null);
+  const { ref: loadMoreRef, inView } = useInView({
+    threshold: 0.1,
+  });
 
   const {
     data,
@@ -29,34 +31,12 @@ export default function InfiniteScrollPage() {
     ? data.pages.reduce((acc, page) => [...acc, ...page.todos], [])
     : [];
 
+  // inView 상태가 변경될 때마다 실행
   useEffect(() => {
-    // Intersection Observer 설정
-    const options = {
-      root: null,
-      rootMargin: "0px",
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      const [entry] = entries;
-      if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
-        fetchNextPage();
-      }
-    }, options);
-
-    observerRef.current = observer;
-
-    // 관찰 대상 설정
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
     }
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+  }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -82,7 +62,7 @@ export default function InfiniteScrollPage() {
             allTodos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
           )}
 
-          {/* 무한 스크롤을 위한 관찰 대상 */}
+          {/* react-intersection-observer를 위한 관찰 대상 */}
           {hasNextPage && (
             <div ref={loadMoreRef} className="p-4 text-center">
               {isFetchingNextPage ? "로딩 중..." : "스크롤하여 더 불러오기"}
