@@ -1,8 +1,8 @@
 "use client";
 
 import TodoItem from "@/app/_components/TodoItem";
-import { fetchTodos } from "@/api/todos";
-import { useQuery } from "@tanstack/react-query";
+import { fetchTodos, toggleTodoStatus } from "@/api/todos";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export default function TodoList() {
   const {
@@ -12,6 +12,14 @@ export default function TodoList() {
   } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchTodos,
+  });
+
+  const queryClient = useQueryClient();
+  const toggleMutation = useMutation({
+    mutationFn: toggleTodoStatus,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
   });
 
   if (isPending)
@@ -30,7 +38,13 @@ export default function TodoList() {
       {todos.length === 0 ? (
         <div className="p-4 text-center">할 일이 없습니다.</div>
       ) : (
-        todos.map((todo) => <TodoItem key={todo.id} todo={todo} />)
+        todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggle={toggleMutation.mutate}
+          />
+        ))
       )}
     </div>
   );

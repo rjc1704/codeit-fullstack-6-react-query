@@ -3,6 +3,7 @@ const API_URL = "http://localhost:4000/todos";
 
 // 할 일 목록 조회
 export const fetchTodos = async () => {
+  console.log("fetchTodos 호출");
   const response = await fetch(API_URL);
   if (!response.ok) {
     throw new Error("서버에서 데이터를 가져오는데 실패했습니다.");
@@ -52,7 +53,7 @@ export const deleteTodo = async (id) => {
 };
 
 // 할 일 완료 상태 토글
-export const toggleTodoStatus = async (id, currentCompleted) => {
+export const toggleTodoStatus = async ({ id, currentCompleted }) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: {
