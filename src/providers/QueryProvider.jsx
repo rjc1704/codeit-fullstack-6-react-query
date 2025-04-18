@@ -9,15 +9,7 @@ import {
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function makeQueryClient() {
-  const queryCache = new QueryCache({
-    onError: (error, query) => {
-      alert(
-        `오류 발생: ${query.meta?.name || "알 수 없는 쿼리"} - ${
-          error.message
-        }`,
-      );
-    },
-  });
+  const queryCache = new QueryCache();
 
   return new QueryClient({
     // queryCache,

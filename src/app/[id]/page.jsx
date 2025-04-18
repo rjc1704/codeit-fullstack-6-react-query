@@ -16,9 +16,6 @@ export default function TodoDetailPage() {
     queryKey: ["todos", id],
     queryFn: () => fetchTodo(id),
     gcTime: 10 * 60 * 1000,
-    meta: {
-      name: "todos 상세",
-    },
   });
 
   if (isPending) {
