@@ -7,7 +7,6 @@ import TodoItem from "@/app/_components/TodoItem";
 
 export default function EnabledTestPage() {
   const [isEnabled, setIsEnabled] = useState(false);
-
   const {
     data: todos,
     isPending,
@@ -16,7 +15,6 @@ export default function EnabledTestPage() {
   } = useQuery({
     queryKey: ["todos", "enabled-test"],
     queryFn: fetchTodos,
-    enabled: isEnabled, // 토글 상태에 따라 쿼리 활성화/비활성화
   });
 
   return (
@@ -31,7 +29,6 @@ export default function EnabledTestPage() {
           </div>
 
           <button
-            onClick={() => setIsEnabled(!isEnabled)}
             className={`px-4 py-2 rounded text-white ${
               isEnabled
                 ? "bg-red-500 hover:bg-red-600"
